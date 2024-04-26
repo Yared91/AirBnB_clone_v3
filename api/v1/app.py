@@ -12,16 +12,11 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-"""
-cross origin resource sharing
-"""
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
-""" run your Flask server (variable app) with """
 host = os.getenv('HBNB_API_HOST', '0.0.0.0')
 port = os.getenv('HBNB_API_PORT', '5000')
 
-"""register the blueprint app_views"""
 app.register_blueprint(app_views)
 
 
