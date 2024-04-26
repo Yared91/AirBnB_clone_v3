@@ -38,9 +38,10 @@ def error_404(exception):
     It handles the 404 error
     and displays error: "Not Found"
     """
+
     error = {
-            "error": "Not found"
-            }
+        "error": "Not found"
+        }
 
     jsonify(error).status_code = 404
     return (jsonify(error))
