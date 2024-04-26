@@ -2,6 +2,7 @@
 """
 Create our first API that returns an endpoint
 """
+
 from api.v1.views import app_views
 from flask import Flask
 from flask import jsonify
@@ -24,15 +25,16 @@ port = os.getenv('HBNB_API_PORT', '5000')
 """register the blueprint app_views"""
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
-def teardown_storage(exc):
+def teardown_storage(exception):
     """
     It calls the storage.close()
     """
     storage.close()
 
 @app.errorhandler(404)
-def error_404(exc):
+def error_404(exception):
     """
     It handles the 404 error
     and displays error: "Not Found"
@@ -42,7 +44,6 @@ def error_404(exc):
             }
 
     jsonify(error).status_code = 404
-
     return (jsonify(error))
 
 
