@@ -47,5 +47,4 @@ def error_404(exc):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, threaded=True)
