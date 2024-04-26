@@ -13,7 +13,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 """
-cross orgine resource sharing 
+cross origin resource sharing
 """
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 

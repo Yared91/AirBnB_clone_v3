@@ -22,13 +22,14 @@ def status_ok():
 
 
 @app_views.route('/stats', methods=['GET'])
-"""
-Retrieves the count of all class objects and returns it as a JSON response
-Returns:
-JSON: A dictionary containing the count of each object type
-"""
-if request.method == 'GET':
+def states():
+    """
+    Retrieves the count of all class objects and returns it as a JSON response
+    Returns:
+    JSON: A dictionary containing the count of each object type
+    """
 
-    keys = ["Amenity", "City", "Place", "Review", "State", "User"]
-    response = {key.lower(): storage.count(key) for key in keys}
-    return jsonify(response)
+    if request.method == 'GET':
+        keys = ["Amenity", "City", "Place", "Review", "State", "User"]
+        response = {key.lower(): storage.count(key) for key in keys}
+        return jsonify(response)
