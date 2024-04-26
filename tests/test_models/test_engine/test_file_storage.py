@@ -125,7 +125,6 @@ class TestStorageGet(unittest.TestCase):
         self.state = State(name="Addis Ababa")
         self.state.save()
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def get_obj(self):
         """
         return the state and it's id
@@ -133,7 +132,6 @@ class TestStorageGet(unittest.TestCase):
         output = storage.get(cls="State", id=self.state.id)
         self.assertIsInstance(output, State)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def get_none(self):
         """
         checking if the state does't there
@@ -153,7 +151,6 @@ class TestStorageCount(unittest.TestCase):
         models.state.State()
         models.state.State()
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def count_state(self):
         """
         number of saved states and the counted states must be equal
