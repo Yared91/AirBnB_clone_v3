@@ -113,3 +113,56 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+class TestStorageGet(unittest.TestCase):
+    """
+    Testing the get method
+    """
+    def setUp(self):
+        """
+        setting up one state for test
+        """
+        self.state = State(name="Addis Ababa")
+        self.state.save()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def get_obj(self):
+        """
+        return the state and it's id
+        """
+        output = storage.get(cls="State", id=self.state.id)
+        self.assertIsInstance(output, State)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def get_none(self):
+        """
+        checking if the state does't there
+        """
+        output = storage.get(cls="State", id="absent")
+        self.assertEqual(None, output)
+
+class TestStorageCount(unittest.TestCase):
+    """
+    Testing the Count Method
+    """
+    def setUp(self):
+        """
+        setting up States
+        """
+        models.state.State()
+        models.state.State()
+        models.state.State()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def count_state(self):
+        """
+        number of saved states and the counted states must be equal
+        """
+        output = storage.count(cls="State")
+        count = storage.all("State")
+
+        self.assertEqual(len(count), output)
+
+
+if __name__ == '__main__':
+    unittest.main
