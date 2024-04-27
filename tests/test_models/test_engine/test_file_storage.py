@@ -115,6 +115,7 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
+
 class TestStorageGet(unittest.TestCase):
     """
     Testing the get method
@@ -139,6 +140,7 @@ class TestStorageGet(unittest.TestCase):
         """
         output = storage.get(cls="State", id="absent")
         self.assertEqual(None, output)
+
 
 class TestStorageCount(unittest.TestCase):
     """

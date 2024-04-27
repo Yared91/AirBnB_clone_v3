@@ -87,6 +87,7 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
+
 class TestStorageGet(unittest.TestCase):
     """Testing the get method"""
     def setUp(self):
@@ -103,6 +104,7 @@ class TestStorageGet(unittest.TestCase):
         """checking if the state does't there"""
         output = storage.get(cls="State", id="absent")
         self.assertEqual(None, output)
+
 
 class TestStorageCount(unittest.TestCase):
     """Testing the Count Method"""
