@@ -32,6 +32,7 @@ def teardown_storage(exception):
     """
     storage.close()
 
+
 @app.errorhandler(404)
 def error_404(exception):
     """
