@@ -3,6 +3,7 @@
 Contains the class DBStorage
 """
 
+
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -15,6 +16,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -76,14 +78,7 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """
-        Retrieves an object based on class name and ID using attribute lookup
-        Args:
-        cls (class): The class of the object to retrieve
-        id (int): The ID of the object
-        Returns:
-        object or None: The object if found, None otherwise
-        """
+        """Retrieves an object based on class name and ID"""
         if cls and id:
             objects = self.all(cls)
             return objects.get("{}.{}".format(cls, id))
@@ -91,9 +86,6 @@ class DBStorage:
             return None
 
     def count(self, cls=None):
-        """
-        Returns the number of objects in storage matching the given class
-        If no class is passed, returns the count of all objects in storage
-        """
+        """Returns the number of objects in storage matching given class"""
         obj = self.all(cls)
         return (len(obj))
