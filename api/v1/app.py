@@ -2,12 +2,11 @@
 """
 Create our first API that returns an endpoint
 """
-
 from api.v1.views import app_views
 from flask import Flask, jsonify
-import os
-from models import storage
 from flask_cors import CORS
+from models import storage
+import os
 
 
 app = Flask(__name__)
