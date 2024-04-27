@@ -50,8 +50,9 @@ class BaseModel:
 
     def __str__(self):
         """String representation of the BaseModel class"""
-        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
-                                         self.__dict__)
+        return "[{:s}] ({:s}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__
+        )
 
     def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
@@ -69,10 +70,6 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        if not save_to_file:
-            for key in list(new_dict):
-                if key == "password":
-                    del new_dict[key]
         return new_dict
 
     def delete(self):
