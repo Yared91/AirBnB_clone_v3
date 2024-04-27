@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Creat a State objects that handles all default RESTFul API actions
+Create a State objects that handles all default RESTFul API actions
 """
 
 from flask import Flask, jsonify
@@ -18,6 +18,7 @@ def state_all():
     states = [state.to_json() for state in storage.all("State").values()]
     return jsonify(states)
 
+
 @app_views.route("/states/<state_id>", methods=["GET"])
 def state_id():
     """
@@ -29,6 +30,7 @@ def state_id():
         return jsonify(state_obj.to_json())
     else:
         abort(404)
+
 
 @app_views.route("/states/<state_id>", methods=["DELETE"])
 def state_delete():
@@ -44,6 +46,7 @@ def state_delete():
         return jsonify({})
     else:
         abort(404)
+
 
 @app_views.route("/states", methods=["POST"])
 def state_post():
@@ -61,6 +64,7 @@ def state_post():
         new_post.save()
 
     return jsonify(new_post.to_json()), 201
+
 
 @app_views.route("/states/<state_id>",  methods=["PUT"])
 def state_put():
@@ -89,4 +93,4 @@ def state_put():
     fetched_obj.__dict__.update(**fields)
     fetched_obj.save()
 
-     return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_json())
