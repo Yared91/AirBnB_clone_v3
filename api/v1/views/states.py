@@ -7,7 +7,6 @@ from flask import Flask, jsonify
 from flask import request, abort
 from api.v1.views import app_views, storage
 from models.state import State
-from models import storage
 
 
 @app_views.route("/states", methods=["GET"])
@@ -27,7 +26,7 @@ def state_id():
     state_obj = storage.get("State", state_id)
 
     if state_obj:
-        return jsonify(state_obj.to_json())
+        return jsonify(state_obj.to_json()), 200
     else:
         abort(404)
 
@@ -43,7 +42,7 @@ def state_delete():
         storage.delete(state_obj)
         storage.save()
 
-        return jsonify({})
+        return jsonify({}), 200
     else:
         abort(404)
 
@@ -51,7 +50,7 @@ def state_delete():
 @app_views.route("/states", methods=["POST"])
 def state_post():
     """
-    Creats or adds a new state
+    Creates or adds a new state
     """
     post = request.get_json()
 
@@ -93,4 +92,4 @@ def state_put():
     fetched_obj.__dict__.update(**fields)
     fetched_obj.save()
 
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_json()), 200
