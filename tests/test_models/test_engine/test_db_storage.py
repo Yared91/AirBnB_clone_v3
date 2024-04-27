@@ -41,9 +41,9 @@ class TestDBStorageDocs(unittest.TestCase):
         """Test tests/test_models/test_db_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_engine/\
-test_db_storage.py'])
+                test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
+                "Found code style errors (and warnings).")
 
     def test_db_storage_module_docstring(self):
         """Test for the db_storage.py module docstring"""
@@ -89,9 +89,13 @@ class TestFileStorage(unittest.TestCase):
 
 
 class TestStorageGet(unittest.TestCase):
-    """Testing the get method"""
+    """
+    Testing the get method
+    """
     def setUp(self):
-        """setting up one state for test"""
+        """
+        setting up one state for test
+        """
         self.state = State(name="Addis Ababa")
         self.state.save()
 
@@ -101,15 +105,21 @@ class TestStorageGet(unittest.TestCase):
         self.assertIsInstance(output, State)
 
     def get_none(self):
-        """checking if the state does't there"""
+        """
+        checking if the state does't there
+        """
         output = storage.get(cls="State", id="absent")
         self.assertEqual(None, output)
 
 
 class TestStorageCount(unittest.TestCase):
-    """Testing the Count Method"""
+    """
+    Testing the Count Method
+    """
     def setUp(self):
-        """setting up States"""
+        """
+        setting up States
+        """
         self.state1 = State(name="Asmara")
         self.state1.save()
         self.state2 = State(name="Kampala")
@@ -118,7 +128,9 @@ class TestStorageCount(unittest.TestCase):
         self.state3.save()
 
     def count_state(self):
-        """number of saved states and the counted states must be equal"""
+        """
+        number of saved states and the counted states must be equal
+        """
         output = storage.count(cls="State")
         count = storage.all("State")
 
