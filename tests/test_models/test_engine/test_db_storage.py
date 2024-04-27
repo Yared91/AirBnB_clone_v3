@@ -88,38 +88,26 @@ class TestFileStorage(unittest.TestCase):
         """Test that save properly saves objects to file.json"""
 
 class TestStorageGet(unittest.TestCase):
-    """
-    Testing the get method
-    """
+    """Testing the get method"""
     def setUp(self):
-        """
-        setting up one state for test
-        """
+        """setting up one state for test"""
         self.state = State(name="Addis Ababa")
         self.state.save()
 
     def get_obj(self):
-        """
-        return the state and it's id
-        """
+        """return the state and it's id"""
         output = storage.get(cls="State", id=self.state.id)
         self.assertIsInstance(output, State)
 
     def get_none(self):
-        """
-        checking if the state does't there
-        """
+        """checking if the state does't there"""
         output = storage.get(cls="State", id="absent")
         self.assertEqual(None, output)
 
 class TestStorageCount(unittest.TestCase):
-    """
-    Testing the Count Method
-    """
+    """Testing the Count Method"""
     def setUp(self):
-        """
-        setting up States
-        """
+        """setting up States"""
         self.state1 = State(name="Asmara")
         self.state1.save()
         self.state2 = State(name="Kampala")
@@ -128,9 +116,7 @@ class TestStorageCount(unittest.TestCase):
         self.state3.save()
 
     def count_state(self):
-        """
-        number of saved states and the counted states must be equal
-        """
+        """number of saved states and the counted states must be equal"""
         output = storage.count(cls="State")
         count = storage.all("State")
 
