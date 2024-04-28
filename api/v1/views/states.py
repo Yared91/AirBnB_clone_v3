@@ -8,7 +8,7 @@ from api.v1.views import app_views
 from models.state import State
 
 
-@app_views.route('/states', methods=['GET'])
+@app_views.route('/states', strict_slashes=False, methods=['GET'])
 def state_all():
     '''
         Retrieves the list of all State objects
@@ -17,7 +17,7 @@ def state_all():
     return jsonify(lists)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
 def state_id(state_id):
     '''
         Check if state_id is connected to State object
@@ -28,7 +28,10 @@ def state_id(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route(
+        '/states/<state_id>',
+        strict_slashes=False,
+        methods=['DELETE'])
 def state_delete(state_id):
     '''
         Deletes State objects that has state_id
@@ -41,7 +44,7 @@ def state_delete(state_id):
     return jsonify({}), 200
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', strict_slashes=False, methods=['POST'])
 def state_post():
     '''
         Creates or adds a new state
@@ -58,7 +61,7 @@ def state_post():
         return jsonify(st.to_dict()), 201
 
 
-@app_views.route('/states/<states_id>', methods=['PUT'])
+@app_views.route('/states/<states_id>', strict_slashes=False, methods=['PUT'])
 def update_state(states_id):
     '''
     Updates a State object by Id
