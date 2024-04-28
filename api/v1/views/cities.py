@@ -10,7 +10,7 @@ from models.city import City
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def state_all(state_id):
+def get_city_by_state(state_id):
     '''
         return cities in state, json form
     '''
