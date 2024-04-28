@@ -17,7 +17,7 @@ def cities_all(state_id):
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
-    return jsonify([c.to_dict() for c in state.cities]), 200
+    return jsonify([city.to_dict() for city in state.cities]), 200
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -73,8 +73,7 @@ def update_city(city_id):
     '''
     req = request.get_json()
     if not req:
-        err = {"error": "Not a JSON"}
-        return jsonify(err), 400
+        return jsonify({"error": "Not a JSON"}), 400
 
     st = storage.get("City", city_id)
     if st is None:
