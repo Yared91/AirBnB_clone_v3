@@ -14,7 +14,7 @@ app = Flask(__name__)
 """
 cross origin resource sharing
 """
-cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+CORS(app, origins=["0.0.0.0"])
 
 """register the blueprint app_views"""
 app.register_blueprint(app_views)
