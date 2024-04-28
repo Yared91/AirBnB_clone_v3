@@ -10,12 +10,11 @@ import os
 
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 """
 cross origin resource sharing
 """
-CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+CORS(app, origins=["0.0.0.0"])
 
 """register the blueprint app_views"""
 app.register_blueprint(app_views)
