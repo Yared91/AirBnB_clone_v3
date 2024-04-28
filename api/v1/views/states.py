@@ -70,7 +70,8 @@ def update_state(states_id):
     state = storage.get("State", states_id)
     if state is None:
         abort(404)
-    post = request.get_json()
-    state.name = post['name']
-    state.save()
+    for k, v in requests.items():
+        if k not in ["id", "created_at", "updated_at"]:
+            setattr(state, k, v)
+
     return jsonify(state.to_dict()), 200
