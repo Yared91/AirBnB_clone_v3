@@ -52,9 +52,11 @@ def city_post(state_id):
     '''
     req = request.get_json()
     if not req:
-        return jsonify({"error": "Not a JSON"}), 400
+        err1 = {"error": "Not a JSON"}
+        return jsonify(err1), 400
     elif "name" not in req:
-        return jsonify({"error": "Missing name"}), 400
+        err2 = {"error": "Missing name"}
+        return jsonify(err2), 400
     else:
         city_obj = request.get_json()
         st = storage.get("State", state_id)
@@ -73,7 +75,8 @@ def update_city(city_id):
     '''
     req = request.get_json()
     if not req:
-        return jsonify({"error": "Not a JSON"}), 400
+        err = {"error": "Not a JSON"}
+        return jsonify(err), 400
 
     st = storage.get("City", city_id)
     if st is None:
