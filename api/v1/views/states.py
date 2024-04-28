@@ -33,10 +33,10 @@ def state_delete(state_id):
     '''
         Deletes State objects that has state_id
     '''
-    state_obj = storage.get("State", state_id)
-    if state_obj is None:
+    state = storage.get("State", state_id)
+    if state is None:
         abort(404)
-    state_obj.delete()
+    state.delete()
     storage.save()
     return jsonify({}), 200
 
@@ -71,10 +71,10 @@ def update_state(states_id):
     if not request:
         return jsonify({"error": "Not a JSON"}), 400
 
-    state_obj = storage.get("State", states_id)
-    if state_obj is None:
+    state = storage.get("State", states_id)
+    if state is None:
         abort(404)
     post = request.get_json()
-    state_obj.name = post['name']
-    state_obj.save()
-    return jsonify(state_obj.to_dict()), 200
+    state.name = post['name']
+    state.save()
+    return jsonify(state.to_dict()), 200
