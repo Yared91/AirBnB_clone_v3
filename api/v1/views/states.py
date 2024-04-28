@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for class State
+    Create a State objects that handles all default RESTFul API actions
 '''
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -11,7 +11,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def state_all():
     '''
-        return state in json form
+        Retrieves the list of all State objects
     '''
     store = storage.all('State').values()
     state = [st.to_dict() for st in store]
@@ -21,7 +21,7 @@ def state_all():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def state_id(state_id):
     '''
-        return state and its id using http verb GET
+        Check if state_id is connected to State object
     '''
     state = storage.get("State", state_id)
     if state is None:
@@ -35,7 +35,7 @@ def state_id(state_id):
     strict_slashes=False)
 def state_delete(state_id):
     '''
-        delete state obj given state_id
+         Deletes State objects that has state_id
     '''
     state_obj = storage.get("State", state_id)
     if state_obj is None:
@@ -48,7 +48,7 @@ def state_delete(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def state_post():
     '''
-        create new state obj
+        Creates or adds a new state
     '''
     req = request.get_json()
     if not req:
@@ -65,7 +65,7 @@ def state_post():
 @app_views.route('/states/<states_id>', methods=['PUT'], strict_slashes=False)
 def state_put(states_id):
     '''
-        update existing state object
+        Updates a State object by Id
     '''
     req = request.get_json()
     if not req:
