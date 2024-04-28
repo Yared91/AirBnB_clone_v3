@@ -9,7 +9,7 @@ from models.state import State
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def get_state():
+def state_all():
     '''
         return state in json form
     '''
@@ -19,7 +19,7 @@ def get_state():
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def get_state_id(state_id):
+def state_id(state_id):
     '''
         return state and its id using http verb GET
     '''
@@ -33,14 +33,14 @@ def get_state_id(state_id):
     '/states/<state_id>',
     methods=['DELETE'],
     strict_slashes=False)
-def delete_state(state_id):
+def state_delete(state_id):
     '''
         delete state obj given state_id
     '''
-    state = storage.get("State", state_id)
-    if state is None:
+    state_obj = storage.get("State", state_id)
+    if state_obj is None:
         abort(404)
-    state.delete()
+    storage.delete(state_obj)
     storage.save()
     return jsonify({}), 200
 
