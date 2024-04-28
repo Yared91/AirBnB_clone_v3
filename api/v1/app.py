@@ -10,6 +10,7 @@ import os
 
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 """
 cross origin resource sharing
