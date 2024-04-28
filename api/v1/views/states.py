@@ -1,97 +1,82 @@
-#!/usr/bin/python3
+ndles all RESTful API actions for `State` objects
 """
-Create a State objects that handles all default RESTFul API actions
-"""
-
-from flask import Flask, jsonify
-from flask import request, abort
-from api.v1.views import app_views, storage
+from api.v1.views import app_views
+from flask import jsonify, abort, request
+from models import storage
 from models.state import State
 
 
-@app_views.route("/states", methods=["GET"])
-def state_all():
-    """
-    Retrieves the list of all State objects
-    """
-    lists = []
-    states = storage.all("State").values()
-    for state in states:
-        lists.append(state.to_json())
-    return jsonify(lists)
+@app_views.route("/states")
+def states():
+    """Retrieve the list of all `State` objects"""
+    result = []
+    for value in storage.all(State).values():
+        result.append(value.to_dict())
+    return jsonify(result)
 
 
-@app_views.route("/states/<state_id>", methods=["GET"])
-def state_id():
-    """
-    Check if state_id is connected to State object
-    """
-    state_obj = storage.get("State", state_id)
+@app_views.route("/states/<state_id>")
+def state(state_id: str):
+    """Retrive one state object
 
-    if state_obj is None:
+    Args:
+        state_id (string): state identifier
+
+    Returns:
+        Response: `State` object in json
+    """
+    result = storage.get(State, state_id)
+    if result is None:
         abort(404)
-    else:
-        return jsonify(state_obj.to_json()), 200
+    return jsonify(result.to_dict())
 
 
 @app_views.route("/states/<state_id>", methods=["DELETE"])
-def state_delete():
-    """
-    Deletes State objects that has state_id
-    """
-    state_obj = storage.get("State", state_id)
+def delete_state(state_id):
+    """Delete a state object
 
-    if state_obj is None:
+    Args:
+        state_id (str): state identifier
+
+    Returns:
+        Response: Empty dictionary - `{}`
+    """
+    state = storage.get(State, state_id)
+    if state is None:
         abort(404)
-    storage.delete(state_obj)
+    state.delete()
     storage.save()
-
-    return jsonify({}), 200
+    return jsonify({})
 
 
 @app_views.route("/states", methods=["POST"])
-def state_post():
-    """
-    Creates or adds a new state
-    """
-    post = request.get_json()
-
-    if post is None:
-        abort(400, 'Not a JSON')
-    elif post.get("name") is None:
-        abort(400, 'Missing name')
-
-    new_post = State(**post)
-    new_post.save()
-
-    return jsonify(new_post.to_json()), 201
+def create_state():
+    """Create a `State` object"""
+    if not request.get_json():
+        abort(400, "Not a JSON")
+    if "name" not in request.get_json():
+        abort(400, "Missing name")
+    state = State(**request.get_json())
+    state.save()
+    return jsonify(state.to_dict()), 201
 
 
-@app_views.route("/states/<state_id>",  methods=["PUT"])
-def state_put():
-    """
-    Updates a State object by ID
+@app_views.route("/states/<state_id>", methods=["PUT"])
+def update_state(state_id):
+    """Update `State` object
+
     Args:
-    state_id (str): The ID of the State object to update
+        state_id (str): state identifier
+
     Returns:
-    JSON: The updated State object (200) or error message
+        Response: `State` object with status code 200
     """
-    state_data = request.get_json()
-
-    if state_data is None:
-        abort(400, 'Not a JSON')
-
-    state_obj = storage.get("State", state_id)
-
-    if state_obj is None:
+    state = storage.get(State, state_id)
+    if not state:
         abort(404)
-
-    st = state_data.items()
-    for keys, values in st:
-        if keys not in ["id", "created_at", "updated_at"]:
-            setattr(state_obj, keys, values)
-
-    """Update object attributes efficiently and save"""
-    state_obj.save()
-
-    return jsonify(state_obj.to_json()), 200
+    if not request.get_json():
+        abort(400, "Not a JSON")
+    key = "name"
+    setattr(state, key, request.get_json().get(key))
+    state.save()
+    return jsonify(state.to_dict())
