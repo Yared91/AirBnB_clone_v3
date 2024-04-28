@@ -52,9 +52,11 @@ def state_post():
     '''
     req = request.get_json()
     if not req:
-        return jsonify({"error": "Not a JSON"}), 400
+        err1 = {"error": "Not a JSON"}
+        return jsonify(err1), 400
     elif "name" not in req:
-        return jsonify({"error": "Missing name"}), 400
+        err = {"error": "Missing name"}
+        return jsonify(err), 400
     else:
         state_data = request.get_json()
         post = State(**state_data)
@@ -69,7 +71,8 @@ def state_put(states_id):
     '''
     req = request.get_json()
     if not req:
-        return jsonify({"error": "Not a JSON"}), 400
+        err = {"error": "Not a JSON"}
+        return jsonify(err), 400
 
     st = storage.get("State", states_id)
     if st is None:
