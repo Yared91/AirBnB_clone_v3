@@ -13,8 +13,9 @@ def get_state():
     '''
         return state in json form
     '''
-    state = [s.to_dict() for s in storage.all('State').values()]
-    return jsonify(state_list)
+    store = storage.all('State').values()
+    state = [st.to_dict() for st in store]
+    return jsonify(state)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
