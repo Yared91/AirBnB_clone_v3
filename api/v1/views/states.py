@@ -14,8 +14,11 @@ def state_all():
     """
     Retrieves the list of all State objects
     """
-    states = [state.to_json() for state in storage.all("State").values()]
-    return jsonify(states)
+    lists = []
+    states = storage.all("State").values()
+    for state in states:
+        lists.append(state.to_json())
+    return jsonify(lists)
 
 
 @app_views.route("/states/<state_id>", methods=["GET"])
@@ -82,14 +85,14 @@ def state_put():
     state_obj = storage.get("State", state_id)
 
     if not state_obj:
-        abort(400)
+        abort(404)
 
     st = state_data.items()
-    keys = ["id", "created_at", "updated_at"]
-    fields = {key: val for key, val in st if key not in keys}
+    for keys, values in st:
+        if keys not in ["id", "created_at", "updated_at"]:
+            setattr(state_obj, keys, values)
 
     """Update object attributes efficiently and save"""
-    fetched_obj.__dict__.update(**fields)
-    fetched_obj.save()
+    state_obj.save()
 
-    return jsonify(fetched_obj.to_json()), 200
+    return jsonify(state_obj.to_json()), 200
