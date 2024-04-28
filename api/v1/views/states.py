@@ -46,7 +46,7 @@ def state_post():
     '''
         Creates or adds a new state
     '''
-    if request.get_json() is None:
+    if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     elif "name" not in request.get_json():
         return jsonify({"error": "Missing name"}), 400
@@ -66,7 +66,7 @@ def update_state(states_id):
     Returns:
     JSON: The updated State object (200) or error message
     '''
-    if request.get_json() is None:
+    if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
 
     state_obj = storage.get("State", states_id)
