@@ -28,10 +28,10 @@ def state_id():
     """
     state_obj = storage.get("State", state_id)
 
-    if state_obj:
-        return jsonify(state_obj.to_json()), 200
-    else:
+    if state_obj is None:
         abort(404)
+    else:
+        return jsonify(state_obj.to_json()), 200
 
 
 @app_views.route("/states/<state_id>", methods=["DELETE"])
@@ -41,13 +41,12 @@ def state_delete():
     """
     state_obj = storage.get("State", state_id)
 
-    if state_obj:
-        storage.delete(state_obj)
-        storage.save()
-
-        return jsonify({}), 200
-    else:
+    if state_obj is None:
         abort(404)
+    storage.delete(state_obj)
+    storage.save()
+
+    return jsonify({}), 200
 
 
 @app_views.route("/states", methods=["POST"])
@@ -61,9 +60,9 @@ def state_post():
         abort(400, 'Not a JSON')
     elif post.get("name") is None:
         abort(400, 'Missing name')
-    else:
-        new_post = State(**post)
-        new_post.save()
+
+    new_post = State(**post)
+    new_post.save()
 
     return jsonify(new_post.to_json()), 201
 
@@ -79,12 +78,12 @@ def state_put():
     """
     state_data = request.get_json()
 
-    if not state_data:
+    if state_data is None:
         abort(400, 'Not a JSON')
 
     state_obj = storage.get("State", state_id)
 
-    if not state_obj:
+    if state_obj is None:
         abort(404)
 
     st = state_data.items()
