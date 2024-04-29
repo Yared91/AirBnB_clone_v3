@@ -87,4 +87,4 @@ def update_review(review_id):
             else:
                 setattr(storage.get("Review", review_id), k, obj_data[k])
         storage.get("Review", review_id).save()
-        return jsonify(obj.to_dict()), 200
+        return jsonify(storage.get("Review", review_id).to_dict()), 200
