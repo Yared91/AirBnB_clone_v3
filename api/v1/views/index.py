@@ -34,5 +34,4 @@ def states():
     if request.method == 'GET':
         keys = ["Amenity", "City", "Place", "Review", "State", "User"]
         output = {key.lower(): storage.count(key) for key in keys}
-        output.status_code = 200
         return output
