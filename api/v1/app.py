@@ -10,7 +10,6 @@ import os
 
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 """
 cross origin resource sharing
@@ -36,12 +35,7 @@ def error_404(exception):
     and displays error: "Not Found"
     """
 
-    error = {
-        "error": "Not found"
-        }
-
-    jsonify(error).status_code = 404
-    return (jsonify(error))
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == '__main__':
