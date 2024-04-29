@@ -18,7 +18,8 @@ def status_ok():
         response = {
                 "status": "OK"
                 }
-        return jsonify(response)
+        output = jsonify(response)
+        return output
 
 
 @app_views.route('/stats', methods=['GET'])
@@ -32,4 +33,5 @@ def states():
     if request.method == 'GET':
         keys = ["Amenity", "City", "Place", "Review", "State", "User"]
         response = {key.lower(): storage.count(key) for key in keys}
-        return jsonify(response)
+        output = jsonify(response)
+        return output
