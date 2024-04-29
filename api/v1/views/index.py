@@ -8,15 +8,6 @@ from api.v1.views import app_views
 from models import storage
 from flask import request
 
-keys = {
-        "amenities": Amenity,
-        "cities": City,
-        "places": Place,
-        "reviews": Review,
-        "states": State,
-        "users": User,
-        }
-
 
 @app_views.route('/status', methods=['GET'])
 def status_ok():
@@ -41,8 +32,6 @@ def states():
     """
 
     if request.method == 'GET':
-        response = {}
-        for key, value in keys.items():
-            response[key] = storage.count(value)
-        output = jsonify(response)
+        keys = ["Amenity", "City", "Place", "Review", "State", "User"]
+        response = {key.lower(): storage.count(key) for key in keys}
         return output
