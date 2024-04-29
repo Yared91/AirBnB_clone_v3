@@ -17,76 +17,85 @@ def place_review(place_id):
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
-    review_list = [r.to_dict() for r in place.reviews]
-    return jsonify(review_list), 200
+    return jsonify([rev.to_dict() for rev in place.reviews]), 200
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
-def get_review_id(review_id):
+def review_id(review_id):
     '''
-        return review given its id using GET
+        Retrieves a Review object using GET methods
     '''
-    review = storage.get("Review", review_id)
-    if review is None:
+    review_obj = storage.get("Review", review_id)
+    if review_obj is None:
         abort(404)
-    return jsonify(review.to_dict()), 200
+    response = jsonify(review_obj.to_dict())
+    return response, 200
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_review(review_id):
+def review_delete(review_id):
     '''
-        delete review obj given review_id
+        Delete review obj using DELETE method
     '''
-    review = storage.get("Review", review_id)
-    if review is None:
+    review_obj = storage.get("Review", review_id)
+    if review_obj is None:
         abort(404)
-    review.delete()
+    storage.delete(review_obj)
     storage.save()
     return jsonify({}), 200
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
-def create_review(place_id):
+def review_post(place_id):
     '''
-        create new review obj through place association using POST
+        Create new review obj using POST method
     '''
     if storage.get("Place", place_id) is None:
         abort(404)
-    elif not request.get_json():
-        return jsonify({"error": "Not a JSON"}), 400
-    elif "user_id" not in request.get_json():
-        return jsonify({"error": "Missing user_id"}), 400
-    elif storage.get("User", request.get_json()["user_id"]) is None:
+    req = request.get_json()
+    elif not req:
+        err = {"error": "Not a JSON"}
+        return jsonify(err), 400
+    elif "user_id" not in req:
+        err1 = {"error": "Missing user_id"}
+        return jsonify(err1), 400
+    posts = request.get_json()["user_id"]
+    elif storage.get("User", posts) is None:
         abort(404)
-    elif "text" not in request.get_json():
-        return jsonify({"error": "Missing text"}), 400
+    elif "text" not in req:
+        err2 = {"error": "Missing text"}
+        return jsonify(err2), 400
     else:
-        obj_data = request.get_json()
-        obj = Review(**obj_data)
-        obj.place_id = place_id
-        obj.save()
-        return jsonify(obj.to_dict()), 201
+        review_obj = request.get_json()
+        post = Review(**review_obj)
+        post.place_id = place_id
+        post.save()
+        response = jsonify(post.to_dict())
+        return response, 201
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
-def update_review(review_id):
+def review_put(review_id):
     '''
-        update review city object using PUT
+        Update review city object using PUT Method
     '''
-    obj = storage.get("Review", review_id)
-    if obj is None:
+    rev = storage.get("Review", review_id)
+    if rev is None:
         abort(404)
-    elif not request.get_json():
-        return jsonify({"error": "Not a JSON"}), 400
+    req = request.get_json()
+    elif not req:
+        err3 = {"error": "Not a JSON"}
+        return jsonify(err3), 400
     else:
-        obj_data = request.get_json()
-        ignore = ("id", "user_id", "place_id", "created_at", "updated_at")
-        for k in obj_data.keys():
-            if k in ignore:
+        review_obj = request.get_json()
+        i = ("id", "user_id", "place_id", "created_at", "updated_at")
+        puts = review_obj.keys()
+        for key in puts:
+            if key in i:
                 pass
             else:
-                setattr(obj, k, obj_data[k])
-        obj.save()
-        return jsonify(obj.to_dict()), 200
+                setattr(rev, key, review_obj[key])
+        rev.save()
+        return jsonify(rev.to_dict()), 200
