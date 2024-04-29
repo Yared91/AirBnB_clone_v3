@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for class Review
+    Create a new view for Review object
 '''
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -10,15 +10,14 @@ from models.review import Review
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def get_review_by_place(place_id):
+def review_place(place_id):
     '''
-        return reviews by place, json form
+        Retrieves the list of all Review objects of a Place
     '''
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
-    review_list = [r.to_dict() for r in place.reviews]
-    return jsonify(review_list), 200
+    return jsonify([r.to_dict() for r in place.reviews]), 200
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
