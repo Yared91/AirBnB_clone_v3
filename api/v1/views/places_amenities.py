@@ -2,6 +2,7 @@
 """
 Create a new view for the link between Place objects and Amenity objects
 """
+
 from flask import jsonify, abort
 from os import getenv
 from api.v1.views import app_views, storage
