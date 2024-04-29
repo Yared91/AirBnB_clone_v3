@@ -10,9 +10,9 @@ from models.review import Review
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def get_review_by_place(place_id):
+def place_review(place_id):
     '''
-        return reviews by place, json form
+        Retrieves the list of all place review
     '''
     place = storage.get("Place", place_id)
     if place is None:
