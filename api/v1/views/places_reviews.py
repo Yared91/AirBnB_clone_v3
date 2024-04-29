@@ -55,16 +55,13 @@ def create_review(place_id):
         abort(404)
     req = request.get_json()
     elif not req:
-        err = {"error": "Not a JSON"}
-        return jsonify(err), 400
+        return jsonify({"error": "Not a JSON"}), 400
     elif "user_id" not in req:
-        err1 = {"error": "Missing user_id"}
-        return jsonify(err1), 400
+        return jsonify({"error": "Missing user_id"}), 400
     elif storage.get("User", request.get_json()["user_id"]) is None:
         abort(404)
     elif "text" not in req:
-        err2 = {"error": "Missing text"}
-        return jsonify(err2), 400
+        return jsonify({"error": "Missing text"}), 400
     else:
         obj_data = request.get_json()
         post = Review(**obj_data)
@@ -74,9 +71,9 @@ def create_review(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
-def update_review(review_id):
+def review_put(review_id):
     '''
-        update review city object using PUT
+        Update review city object using PUT
     '''
     obj = storage.get("Review", review_id)
     if obj is None:
@@ -84,12 +81,12 @@ def update_review(review_id):
     elif not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     else:
-        obj_data = request.get_json()
+        data = request.get_json()
         ignore = ("id", "user_id", "place_id", "created_at", "updated_at")
-        for k in obj_data.keys():
+        for k in data.keys():
             if k in ignore:
                 pass
             else:
-                setattr(obj, k, obj_data[k])
+                setattr(obj, k, data[k])
         obj.save()
         return jsonify(obj.to_dict()), 200
