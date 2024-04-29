@@ -33,7 +33,7 @@ def amenity_unlink(place_id, amenity_id):
     """
     if storage.get("Place", place_id) is None:
         abort(404)
-    if storage.get("Amenity", amenity_id) is None:
+    elif storage.get("Amenity", amenity_id) is None:
         abort(404)
 
     fetched_obj = storage.get("Place", place_id)
