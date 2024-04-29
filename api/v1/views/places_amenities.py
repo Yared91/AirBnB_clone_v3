@@ -63,14 +63,13 @@ def amenity_link(place_id, amenity_id):
     links a amenity with a place using the parameters place and amenity ids
     """
 
-    fetched_obj = storage.get("Place", place_id)
     amenity_obj = storage.get("Amenity", amenity_id)
     found_amenity = None
 
-    if not fetched_obj or not amenity_obj:
+    if not storage.get("Place", place_id) or not amenity_obj:
         abort(404)
 
-    for obj in fetched_obj.amenities:
+    for obj in storage.get("Place", place_id).amenities:
         if obj.id == amenity_id:
             found_amenity = obj
             break
@@ -79,11 +78,11 @@ def amenity_link(place_id, amenity_id):
         return jsonify(found_amenity.to_json())
 
     if getenv("HBNB_TYPE_STORAGE") == "db":
-        fetched_obj.amenities.append(amenity_obj)
+        storage.get("Place", place_id).amenities.append(amenity_obj)
     else:
-        fetched_obj.amenities = amenity_obj
+        storage.get("Place", place_id).amenities = amenity_obj
 
-    fetched_obj.save()
+    storage.get("Place", place_id).save()
 
     resp = jsonify(amenity_obj.to_json())
     resp.status_code = 201
