@@ -39,7 +39,7 @@ def amenity_unlink(place_id, amenity_id):
     found = 0
 
     for obj in fetched_obj.amenities:
-        if str(obj.id) == amenity_id:
+        if obj.id == amenity_id:
             if getenv("HBNB_TYPE_STORAGE") == "db":
                 fetched_obj.amenities.remove(obj)
             else:
@@ -50,10 +50,9 @@ def amenity_unlink(place_id, amenity_id):
 
     if found == 0:
         abort(404)
-    else:
-        resp = jsonify({})
-        resp.status_code = 201
-        return resp
+    output = jsonify({})
+    output.status_code = 201
+    return output
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
