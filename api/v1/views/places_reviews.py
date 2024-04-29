@@ -66,11 +66,11 @@ def create_review(place_id):
         err2 = {"error": "Missing text"}
         return jsonify(err2), 400
     else:
-        obj = request.get_json()
-        post = Review(**obj)
-        post.place_id = place_id
-        post.save()
-        return jsonify(post.to_dict()), 201
+        obj_data = request.get_json()
+        post = Review(**obj_data)
+        obj.place_id = place_id
+        obj.save()
+        return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
