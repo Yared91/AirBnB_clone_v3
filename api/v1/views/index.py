@@ -1,37 +1,46 @@
 #!/usr/bin/python3
 """
-Creating index
+index
 """
 
-from flask import Flask, jsonify
+from flask import jsonify
 from api.v1.views import app_views
+
 from models import storage
-from flask import request
 
 
-@app_views.route('/status', methods=['GET'])
-def status_ok():
+@app_views.route("/status", methods=['GET'], strict_slashes=False)
+def status():
     """
-    returns status ok for the request GET
+    status route
+    :return: response with json
     """
-    if request.method == 'GET':
-        response = {
-                "status": "OK"
-                }
-        output = jsonify(response)
-        output.status_code = 200
-        return output
+    data = {
+        "status": "OK"
+    }
+
+    resp = jsonify(data)
+    resp.status_code = 200
+
+    return resp
 
 
-@app_views.route('/stats', methods=['GET'])
-def states():
+@app_views.route("/stats", methods=['GET'], strict_slashes=False)
+def stats():
     """
-    Retrieves the count of all class objects and returns it as a JSON response
-    Returns:
-    JSON: A dictionary containing the count of each object type
+    stats of all objs route
+    :return: json of all objs
     """
+    data = {
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User"),
+    }
 
-    if request.method == 'GET':
-        keys = ["Amenity", "City", "Place", "Review", "State", "User"]
-        response = {key.lower(): storage.count(key) for key in keys}
-        return jsonify(response)
+    resp = jsonify(data)
+    resp.status_code = 200
+
+    return resp
