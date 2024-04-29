@@ -39,8 +39,9 @@ def error_404(exception):
         "error": "Not found"
         }
 
-    jsonify(error).status_code = 404
-    return (jsonify(error))
+    response = jsonify(error)
+    response.status_code = 404
+    return (response)
 
 
 if __name__ == '__main__':
