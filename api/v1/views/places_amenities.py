@@ -21,8 +21,8 @@ def amenity_by_place(place_id):
     if amen_plc is None:
         abort(404)
 
-    for plc in amen_plc.amenities:
-        amenities_list.append(plc.to_json())
+    for obj in amen_plc.amenities:
+        amenities_list.append(obj.to_json())
 
     return jsonify(amenities_list)
 
