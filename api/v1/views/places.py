@@ -92,7 +92,7 @@ def update_place(place_id):
         abort(404)
     place_obj = request.get_json()
     i = ("id", "user_id", "created_at", "updated_at")
-    puts = obj_data.items()
+    puts = place_obj.items()
     for key, value in puts:
         if key not in i:
             setattr(pl, key, value)
