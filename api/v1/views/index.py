@@ -32,6 +32,9 @@ def states():
     """
 
     if request.method == 'GET':
+        response = {}
         keys = ["Amenity", "City", "Place", "Review", "State", "User"]
-        output = {key.lower(): storage.count(key) for key in keys}
+        for key, value in keys.items():
+            response[key] = storage.count(value)
+        output = jsonify(response)
         return output
