@@ -77,7 +77,7 @@ def user_put(user_id):
     user_obj = request.get_json()
     i = ("id", "email", "created_at", "updated_at")
     puts = user_obj.keys()
-    for key in post:
+    for key in puts:
         if key in i:
             pass
         else:
