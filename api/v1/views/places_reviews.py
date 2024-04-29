@@ -75,8 +75,8 @@ def review_put(review_id):
     '''
         Update city object using PUT
     '''
-    rev = storage.get("Review", review_id)
-    if rev is None:
+    r = storage.get("Review", review_id)
+    if r is None:
         abort(404)
     req = request.get_json()
     elif not req:
@@ -85,10 +85,11 @@ def review_put(review_id):
     else:
         rev_obj = request.get_json()
         i = ("id", "user_id", "place_id", "created_at", "updated_at")
-        for key in rev_obj.keys():
+        puts = obj.keys()
+        for key in obj.keys():
             if key in i:
                 pass
             else:
-                setattr(rev, key, rev_obj[k])
-        rev.save()
-        return jsonify(rev.to_dict()), 200
+                setattr(r, key, obj[k])
+        r.save()
+        return jsonify(r.to_dict()), 200
