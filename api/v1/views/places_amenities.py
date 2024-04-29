@@ -12,20 +12,18 @@ from api.v1.views import app_views, storage
                  strict_slashes=False)
 def amenity_by_place(place_id):
     """
-    get all amenities of a place
-    :param place_id: amenity id
-    :return: all amenities
+    defines Amenity using place_id
     """
-    fetched_obj = storage.get("Place", str(place_id))
-    all_amenities = []
+    amen_plc = storage.get("Place", (place_id))
+    amenities_list = []
 
-    if fetched_obj is None:
+    if amen_plc is None:
         abort(404)
 
-    for obj in fetched_obj.amenities:
-        all_amenities.append(obj.to_json())
+    for plc in amen_plc.amenities:
+        amenities_list.append(plc.to_json())
 
-    return jsonify(all_amenities)
+    return jsonify(amenities_list)
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
