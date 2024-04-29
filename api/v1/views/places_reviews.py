@@ -71,25 +71,22 @@ def create_review(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
-def review_put(review_id):
+def update_review(review_id):
     '''
-        Update city object using PUT
+        update review city object using PUT
     '''
     obj = storage.get("Review", review_id)
     if obj is None:
         abort(404)
-    req = request.get_json()
-    elif not req:
-        err3 = {"error": "Not a JSON"}
-        return jsonify(err3), 400
+    elif not request.get_json():
+        return jsonify({"error": "Not a JSON"}), 400
     else:
-        objs = request.get_json()
-        i = ("id", "user_id", "place_id", "created_at", "updated_at")
-        puts = objs.keys()
-        for key in puts:
-            if key in i:
+        obj_data = request.get_json()
+        ignore = ("id", "user_id", "place_id", "created_at", "updated_at")
+        for k in obj_data.keys():
+            if k in ignore:
                 pass
             else:
-                setattr(obj, key, objs[k])
+                setattr(obj, k, obj_data[k])
         obj.save()
         return jsonify(obj.to_dict()), 200
