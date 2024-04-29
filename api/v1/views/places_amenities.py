@@ -14,7 +14,7 @@ def amenity_by_place(place_id):
     """
     defines Amenity using place_id
     """
-    amen_plc = storage.get("Place", (place_id))
+    amen_plc = storage.get("Place", place_id)
     amenities_list = []
 
     if amen_plc is None:
