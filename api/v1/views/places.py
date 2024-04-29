@@ -24,7 +24,7 @@ def place_city(city_id):
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def place_id(place_id):
     '''
-        Retrieves a Place object
+        Retrieves a Place object using GET method
     '''
     place_obj = storage.get("Place", place_id)
     if place_obj is None:
@@ -65,12 +65,12 @@ def place_post(city_id):
         return jsonify(err2), 400
     else:
         place_obj = request.get_json()
-        c = storage.get("City", city_id)
-        u = storage.get("User", obj_data['user_id'])
-        if c is None or u is None:
+        city = storage.get("City", city_id)
+        user = storage.get("User", place_obj['user_id'])
+        if city is None or user is None:
             abort(404)
-        place_obj['city_id'] = c.id
-        place_obj['user_id'] = u.id
+        place_obj['city_id'] = city.id
+        place_obj['user_id'] = user.id
         post = Place(**place_obj)
         post.save()
         response = jsonify(post.to_dict())
