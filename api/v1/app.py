@@ -14,7 +14,7 @@ app = Flask(__name__)
 """
 cross origin resource sharing
 """
-CORS(app, origins=["0.0.0.0"])
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 """register the blueprint app_views"""
 app.register_blueprint(app_views)
@@ -35,7 +35,12 @@ def error_404(exception):
     and displays error: "Not Found"
     """
 
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    error = {
+        "error": "Not found"
+        }
+
+    jsonify(error).status_code = 404
+    return (jsonify(error))
 
 
 if __name__ == '__main__':
