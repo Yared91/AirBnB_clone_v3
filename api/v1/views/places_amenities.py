@@ -57,25 +57,21 @@ def amenity_unlink(place_id, amenity_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 methods=["POST"],
-                 strict_slashes=False)
-def link_amenity_to_place(place_id, amenity_id):
+                 methods=["POST"])
+def amenity_link(place_id, amenity_id):
     """
-    links a amenity with a place
-    :param place_id: place id
-    :param amenity_id: amenity id
-    :return: return Amenity obj added or error
+    links a amenity with a place using the parameters place and amenity ids
     """
 
-    fetched_obj = storage.get("Place", str(place_id))
-    amenity_obj = storage.get("Amenity", str(amenity_id))
+    fetched_obj = storage.get("Place", place_id)
+    amenity_obj = storage.get("Amenity", amenity_id)
     found_amenity = None
 
     if not fetched_obj or not amenity_obj:
         abort(404)
 
     for obj in fetched_obj.amenities:
-        if str(obj.id) == amenity_id:
+        if obj.id == amenity_id:
             found_amenity = obj
             break
 
