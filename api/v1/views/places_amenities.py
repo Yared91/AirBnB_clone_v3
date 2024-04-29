@@ -15,15 +15,15 @@ def amenity_by_place(place_id):
     defines Amenity using place_id
     """
     fetched_obj = storage.get("Place", str(place_id))
-    amenities_list = []
+    all_amenities = []
 
     if fetched_obj is None:
         abort(404)
 
     for obj in fetched_obj.amenities:
-        amenities_list.append(obj.to_json())
+        all_amenities.append(obj.to_json())
 
-    return jsonify(amenities_list)
+    return jsonify(all_amenities)
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
