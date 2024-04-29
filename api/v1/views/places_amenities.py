@@ -24,7 +24,7 @@ def amenity_by_place(place_id):
     for plc in amen_plc.amenities:
         amenities_list.append(plc.to_json())
 
-    return jsonifyamenities_list)
+    return jsonify(amenities_list)
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
