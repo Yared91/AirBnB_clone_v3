@@ -19,6 +19,7 @@ def status_ok():
                 "status": "OK"
                 }
         output = jsonify(response)
+        output.status_code = 200
         return output
 
 
@@ -32,6 +33,6 @@ def states():
 
     if request.method == 'GET':
         keys = ["Amenity", "City", "Place", "Review", "State", "User"]
-        response = {key.lower(): storage.count(key) for key in keys}
-        output = jsonify(response)
+        output = jsonify(storage.count(key))
+        output.status_code = 200
         return output
