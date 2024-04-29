@@ -14,14 +14,14 @@ def amenity_by_place(place_id):
     """
     defines Amenity using place_id
     """
-    amen_plc = storage.get("Place", (place_id))
+    fetched_obj = storage.get("Place", place_id)
     amenities_list = []
 
-    if amen_plc is None:
+    if fetched_obj is None:
         abort(404)
 
-    for plc in amen_plc.amenities:
-        amenities_list.append(plc.to_json())
+    for obj in fetched_obj.amenities:
+        amenities_list.append(obj.to_json())
 
     return jsonify(amenities_list)
 
