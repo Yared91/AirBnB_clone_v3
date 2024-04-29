@@ -28,8 +28,7 @@ def review_id(review_id):
     review_obj = storage.get("Review", review_id)
     if review_obj is None:
         abort(404)
-    response = jsonify(review_obj.to_dict())
-    return response, 200
+    return jsonify(review_obj.to_dict()), 200
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
@@ -71,8 +70,7 @@ def review_post(place_id):
         post = Review(**review_obj)
         post.place_id = place_id
         post.save()
-        response = jsonify(post.to_dict())
-        return response, 201
+        return jsonify(post.to_dict()), 201
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
