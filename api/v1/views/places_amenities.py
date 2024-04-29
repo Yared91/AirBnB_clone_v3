@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-route for handling place and amenities linking
+Create a new view for the link between Place objects and Amenity objects
 """
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -13,21 +13,18 @@ from models.review import Review
                  strict_slashes=False)
 def amenity_by_place(place_id):
     """
-    get all amenities of a place
-    :param place_id: amenity id
-    :return: all amenities
+    Defines the Amenity using the the place_id
     """
-    fetched_obj = storage.get("Place", str(place_id))
+    amen_plc = storage.get("Place", place_id)
+    amenities_list = []
 
-    all_amenities = []
-
-    if fetched_obj is None:
+    if amen_plc is None:
         abort(404)
 
-    for obj in fetched_obj.amenities:
-        all_amenities.append(obj.to_json())
+    for plc in amen_plc.amenities:
+        amenities_list.append(plc.to_json())
 
-    return jsonify(all_amenities)
+    return jsonifyamenities_list)
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
