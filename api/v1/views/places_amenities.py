@@ -2,10 +2,9 @@
 """
 Create a new view for the link between Place objects and Amenity objects
 """
-from flask import Flask, jsonify, abort, request
-from models import storage
-from api.v1.views import app_views
-from models.review import Review
+from flask import jsonify, abort
+from os import getenv
+from api.v1.views import app_views, storage
 
 
 @app_views.route("/places/<place_id>/amenities",
