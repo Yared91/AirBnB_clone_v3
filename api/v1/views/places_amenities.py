@@ -36,15 +36,14 @@ def amenity_unlink(place_id, amenity_id):
     elif storage.get("Amenity", amenity_id) is None:
         abort(404)
 
-    fetched_obj = storage.get("Place", place_id)
     found = 0
 
-    for obj in fetched_obj.amenities:
+    for obj in storage.get("Place", place_id).amenities:
         if obj.id == amenity_id:
             if getenv("HBNB_TYPE_STORAGE") == "db":
-                fetched_obj.amenities.remove(obj)
+                storage.get("Place", place_id).amenities.remove(obj)
             else:
-                fetched_obj.amenity_ids.remove(obj.id)
+                storage.get("Place", place_id).amenity_ids.remove(obj.id)
             fetched_obj.save()
             found = 1
             break
