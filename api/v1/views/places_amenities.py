@@ -7,14 +7,12 @@ from os import getenv
 from api.v1.views import app_views, storage
 
 
-@app_views.route("/places/<place_id>/amenities",
-                 methods=["GET"],
-                 strict_slashes=False)
-def amenity_by_place(place_id):
+@app_views.route("/places/<place_id>/amenities", methods=["GET"])
+def amenity_place_id(place_id):
     """
     defines Amenity using place_id
     """
-    fetched_obj = storage.get("Place", str(place_id))
+    fetched_obj = storage.get("Place", place_id)
     all_amenities = []
 
     if fetched_obj is None:
@@ -27,18 +25,14 @@ def amenity_by_place(place_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 methods=["DELETE"],
-                 strict_slashes=False)
-def unlink_amenity_from_place(place_id, amenity_id):
+                 methods=["DELETE"])
+def amenity_unlink(place_id, amenity_id):
     """
     unlinks an amenity in a place
-    :param place_id: place id
-    :param amenity_id: amenity id
-    :return: empty dict or error
     """
-    if not storage.get("Place", str(place_id)):
+    if storage.get("Place", place_id) is None:
         abort(404)
-    if not storage.get("Amenity", str(amenity_id)):
+    if storage.get("Amenity", amenity_id) is None:
         abort(404)
 
     fetched_obj = storage.get("Place", place_id)
