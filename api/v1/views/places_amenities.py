@@ -13,7 +13,9 @@ from models.review import Review
                  strict_slashes=False)
 def amenity_by_place(place_id):
     """
-    Defines the Amenity using the the place_id
+    get all amenities of a place
+    :param place_id: amenity id
+    :return: all amenities
     """
     fetched_obj = storage.get("Place", str(place_id))
     all_amenities = []
