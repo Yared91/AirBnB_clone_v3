@@ -21,9 +21,9 @@ def review_place(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
-def get_review_id(review_id):
+def review_id(review_id):
     '''
-        return review given its id using GET
+        Retrieves a Review object using GET method
     '''
     review = storage.get("Review", review_id)
     if review is None:
@@ -33,14 +33,14 @@ def get_review_id(review_id):
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_review(review_id):
+def review_delete(review_id):
     '''
-        delete review obj given review_id
+        Delete review obj using id
     '''
-    review = storage.get("Review", review_id)
-    if review is None:
+    review_obj = storage.get("Review", review_id)
+    if review_obj is None:
         abort(404)
-    review.delete()
+    storage.delete(review_obj)
     storage.save()
     return jsonify({}), 200
 
