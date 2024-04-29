@@ -61,7 +61,7 @@ def review_post(place_id):
     elif "user_id" not in req:
         err1 = {"error": "Missing user_id"}
         return jsonify(err1), 400
-    posts = request.get_json()["user_id"]
+    posts = req["user_id"]
     elif storage.get("User", posts) is None:
         abort(404)
     elif "text" not in req:
