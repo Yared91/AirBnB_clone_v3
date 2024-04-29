@@ -50,9 +50,9 @@ def amenity_unlink(place_id, amenity_id):
 
     if found == 0:
         abort(404)
-    output = jsonify({})
-    output.status_code = 201
-    return output
+    resp = jsonify({})
+    resp.status_code = 201
+    return resp
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
